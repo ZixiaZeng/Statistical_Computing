@@ -5,26 +5,68 @@ date: "2024-11-04"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r load packages}
+# data wrangling
+library(tidyverse)
+# data visualization
+library(ggplot2)
 ```
 
-## R Markdown
+## (Q1)
+```{r Load csv files}
+# Load debt_data.csv
+debt_df = read.csv("debt_data.csv")
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# Load country_data.csv
+country_df = read.csv("country_data.csv")
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+# Load indicator_data.csv
+indicator_df = read.csv("indicator_data.csv")
 
-```{r cars}
-summary(cars)
+# Use dim function to check the number of columns and rows of debt_df
+dim(debt_df)
+```
+By using the dim() function, the number of columns is 13824, and the number of rows is 63. This means the debt_df data frame contains 63 variables and 13824 observations.
+
+## (Q2)
+```{r Update debt_df}
+# Update debt_df by "DT.NFL.BLAT.CD" in descending order
+debt_df = arrange(debt_df,desc(DT.NFL.BLAT.CD))
+
+# Select the first 4 rows and specific columns
+subset_df = debt_df[1:4, c("Country.Code", "Year", "NY.GNP.MKTP.CD", "DT.NFL.BLAT.CD")]
+
+# Display the subset
+print(subset_df)
 ```
 
-## Including Plots
+## (Q3)
+```{r Create debt_df2}
+# Select the first two variables of debt_df, (Country.Code and Year)
+debt_df_first2 = debt_df[, 1:2]
+# Select rest variables and prepare to replace them
+debt_df_rest = debt_df[,-c(1,2)]
 
-You can also embed plots, for example:
+# Match the Indicator_code in Indicator_df and replace them by the indicator_name
+colnames(debt_df_rest) = indicator_df$INDICATOR_NAME[match(colnames(debt_df_rest),indicator_df$INDICATOR_CODE)]
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+# Combine the first two variables
+debt_df2 = cbind(debt_df_first2,debt_df_rest)
+
+debt_df2 %>% 
+  select(c("Country.Code","Year","Net financial flows, others (NFL, current US$)")) %>%
+  head(5)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+
+
+
+
+
+
+
+
+
