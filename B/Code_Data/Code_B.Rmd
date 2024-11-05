@@ -9,50 +9,146 @@ output:
 ---
 
 ## B.1
+
 ### (1)
-According to the background of B.1, the probability density function $p_{\lambda}(x)$ of a random variable $X$ is:
-$$
+
+According to the background of B.1, the probability density function $p_{\lambda}(x)$ of a random variable $X$ is: $$
 p_{\lambda}(x) = \begin{cases} 
 ae^{-\lambda(x - b)} & \text{if } x \geq b, \\
 0 & \text{if } x < b,
 \end{cases}
-$$
-where:
-$ b > 0 $ is a known constant,
-${\lambda} > 0$ is a parameter of the distribution,
-$ a $ is a constant to be determined in terms of $\lambda$ and $b$.
+$$ where: \$ b \> 0 \$ is a known constant, ${\lambda} > 0$ is a parameter of the distribution, \$ a \$ is a constant to be determined in terms of $\lambda$ and $b$.
 
-According to the definition of probability density function, $p_{\lambda}(x)$ must integrate to 1 over its domain, so an equation can be written:
-$$
+According to the definition of probability density function, $p_{\lambda}(x)$ must integrate to 1 over its domain, so an equation can be written: $$
 \int_{-\infty}^{\infty} p_{\lambda}(x) \, dx = 1.
-$$
-when $x < b$, $p_{\lambda}(x) = 0$, so we only need to calculate the integral from $x = b$ to $x = \infty$. To set up the integral, the equation can be written:
-$$
+$$ when $x < b$, $p_{\lambda}(x) = 0$, so we only need to calculate the integral from $x = b$ to $x = \infty$. To set up the integral, the equation can be written: $$
 \int_{b}^{\infty} ae^{-{\lambda}(x - b)} \, dx = 1.
-$$
-$a$ is a constant number, so it can be factored out and just calculate the remaining part:
-$$
+$$ $a$ is a constant number, so it can be factored out and just calculate the remaining part: $$
 a\int_{b}^{\infty} e^{-{\lambda}(x - b)} \, dx = 1.
-$$
-Let $\mu = x-b$, so domain changes to $\{0,\infty\}$ and the euqation should be transformed:
-$$
+$$ Let $\mu = x-b$, so domain changes to $\{0,\infty\}$ and the euqation should be transformed: $$
 a\int_{0}^{\infty} e^{-{\lambda}\mu} \, d\mu = 1.
-$$
-Solve the integral:
-$$
+$$ Solve the integral: $$
 \begin{aligned}
 a\int_{0}^{\infty} e^{-\lambda\mu} d\mu 
 &= -\frac{1}{\lambda} \cdot e^{-\lambda\mu}|_{0}^{\infty} \\
-&= a \cdot [-\frac{1}{\infty} \cdot e^{-\infty \mu} -(-\frac{1}{0} \cdot e^{-0 \mu} )]\\
+&= a \cdot [\lim_{u \to \infty}(-\frac{1}{\lambda} \cdot e^{-\lambda \mu}) 
+  -\lim_{u \to 0}(-\frac{1}{\lambda} \cdot e^{-\lambda \mu} )]\\
 &= a \cdot [0-(-\frac{1}{\lambda})]\\
 &= a \cdot \frac{1}{\lambda} = 1.
 \end{aligned}
-$$
-so it is obvious that 
-$$a = \lambda$$
-The answer of question(1) is $a = \lambda$
+$$ so it is obvious that $$a = \lambda$$ The answer of question(1) is $a = \lambda$
 
 ### (2)
+
+**Mean**: The equation of mean of $X$ is: 
+$$
+\mathbb{E}[X]=\int_{-\infty}^{\infty}x \cdot p_{\lambda}(x)dx
+$$
+because $p_{\lambda}(x) = 0$, when $b<0$, so the integral can be simplified to: 
+$$
+\mathbb{E}[X]=\int_{b}^{\infty}x \cdot p_{\lambda}(x)dx
+$$ 
+Then transform $x$ to make the integral easier to solve. Let: $\mu = x-b \Rightarrow x = u + b$, then: $dx = d\mu$ and when $x=b,\mu=0$, when $x \rightarrow \infty,\mu \rightarrow \infty$. 
+Substituting, and can get: 
+$$
+\mathbb{E}[X]=\int_{0}^{\infty}(\mu + b) \cdot \lambda e^{-\lambda u}d\mu
+$$ 
+Expand $(u+b)$ and calculate two integrals separately: 
+$$
+\mathbb{E}[X] = \int_0^{\infty} \lambda u e^{-\lambda u}du 
+  + \int_0^{\infty} \lambda b e^{-\lambda u}du.
+$$ 
+For the first integral, use intergation by parts: 
+$$
+\begin{aligned}
+\int_0^{\infty} \lambda u e^{-\lambda u}du 
+&= -\mu^2e^{-\lambda \mu} |_{0}^{\infty} + \int_0^{\infty} e^{-\lambda u}du \\
+&= \lim_{u \to \infty} (-u e^{-\lambda u}) 
+  - \lim_{u \to 0} (-u e^{-\lambda u})
+  + (-\frac{1}{\lambda}e^{-\lambda \mu})|_{0}^{\infty} \\
+&= 0 + \lim_{u \to \infty}(-\frac{1}{\lambda}e^{-\lambda \mu}) 
+  - \lim_{u \to 0}(-\frac{1}{\lambda}e^{-\lambda \mu})\\
+&= \frac{1}{\lambda}
+\end{aligned}
+$$ 
+For the second integral, this is similar to $\int_0^{\infty} e^{-\lambda u}du$, so: 
+$$
+\int_0^{\infty} \lambda b e^{-\lambda u}du 
+=\lambda b\int_0^{\infty}e^{-\lambda u}du 
+=\lambda b \cdot \frac{1}{\lambda}
+=b
+$$ 
+Combine the first integral and the second integral, the mean is: 
+$$
+\mathbb{E}(X)=\frac{1}{\lambda}+b
+$$ 
+
+**Standard Deviation**: 
+To calculate the standard deviation, calculate the variance first. The variance of $X$ is: 
+$$
+Var(X)=\mathbb{E}(X^2)-(\mathbb{E}(X))^2
+$$ 
+and $\mathbb{E}(X)=\frac{1}{\lambda}+b$ is already known, so this time just calculate $\mathbb{E}(X^2)$. 
+First, write the equation(already know that when $x < b$, $p_{\lambda}(x) = 0$): 
+$$
+\mathbb{E}(X^2)=\int_{-\infty}^{\infty}x^2 p_{\lambda}(x)dx=\int_b^{\infty} \lambda x^2 e^{-\lambda (x-b)}dx
+$$ 
+Let $\mu = x-b$, then re-write the equation(the transformation steps are the same as the previous proof): 
+$$
+\mathbb{E}(X^2)=\lambda\int_0^{\infty}(\mu+b)^2e^{-\lambda \mu}d\mu
+$$ 
+By expanding the $(\mu+b)^2$, the equation can be separated into three integrals: 
+$$
+\mathbb{E}(X^2)= {\lambda}\int_0^{\infty}u^2e^{-{\lambda} u}du + 2b{\lambda}\int_0^{\infty}ue^{-{\lambda} u}du + b^2{\lambda} \int_0^{\infty}e^{-{\lambda} u}du.
+$$ 
+The second integral: ${\lambda}\int_0^{\infty}ue^{-{\lambda} u}du = \frac{1}{\lambda}$ and the third integral:${\lambda}\int_0^{\infty}e^{-{\lambda} u}du=1$ are solved in previous proof, so we can substitute these conclusions later. Now we can only focus on the first integral: ${\lambda}\int_0^{\infty}u^2e^{-{\lambda} u}du$. To solve: 
+$$
+{\lambda}\int_0^{\infty}u^2e^{{-\lambda} u}du
+$$ 
+we can apply integration by parts twice, which is similar to $\lambda \int_0^{\infty}ue^{-\lambda u}du$, so the result is:
+
+$$ 
+{\lambda} \int_0^{\infty} u^2 e^{-{\lambda} u}du = \frac{2}{{\lambda^2}}. 
+$$
+Substitute these results back, we can get:
+$$
+\mathbb{E}(X^2)= \frac{2}{\lambda^2} + 2b \cdot \frac{1}{\lambda} + b^2
+$$
+Now we can calculate the variance. Substitute the results:
+$$
+\begin{aligned}
+Var(X) &= \mathbb{E}(X^2)-(\mathbb{E}(X))^2 \\
+&= \frac{2}{\lambda^2} + 2b \cdot \frac{1}{\lambda} + b^2  - (\frac{1}{\lambda}+b)^2 \\
+&= \frac{2}{\lambda^2} + 2b \cdot \frac{1}{\lambda} + b^2  - (\frac{1}{\lambda^2}+\frac{2b}{\lambda}+b^2) \\
+&= \frac{1}{\lambda^2}
+\end{aligned}
+$$
+The standard deviation is: $\sigma_X = \sqrt{\text{Var}(X)} = \frac{1}{\lambda}$
+
+In conclusion, the results are: 
+**Mean**: $\mathbb{E}[X] = \frac{1}{\lambda} + b$. 
+**Standard Deviation**: $\sigma\_X = \sqrt{\text{Var}(X)} = \frac{1}{\lambda}$.
+
+### (3)
+**cumulative distribution function(CDF)**:
+Assume CDF of X is: 
+$$
+F_{\lambda}(x) = \mathbb{P}(X \leq x) = \int_{-\infty}^{x}p_{\lambda}(t)dt
+$$
+Case $x<b$: $P(X \leq x)=0$ because the probability density function $p_{\lambda}(x) = 0$. So we can get:
+$$
+F_{\lambda}(x) = 0, \ \ when \ x < b.
+$$
+
+
+
+
+
+
+
+
+
+
 
 
 
