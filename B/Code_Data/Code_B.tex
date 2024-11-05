@@ -1,0 +1,117 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Task B},
+  pdfauthor={Zixia Zeng},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Task B}
+\author{Zixia Zeng}
+\date{2024-11-05}
+
+\begin{document}
+\maketitle
+
+\subsection{B.1}\label{b.1}
+
+\subsubsection{(1)}\label{section}
+
+According to the background of B.1, the probability density function \$
+p\_\lambda(x) \$ of a random variable \$ X \$ is: \[
+p_\lambda(x) = \begin{cases} 
+ae^{-\lambda(x - b)} & \text{if } x \geq b, \\
+0 & \text{if } x < b,
+\end{cases}
+\] where: \$ b \textgreater{} 0 \$ is a known constant,
+\$\lambda \textgreater{} 0 \$ is a parameter of the distribution, \$ a
+\$ is a constant to be determined in terms of \$ \lambda \$ and \$ b \$.
+
+According to the definition of probability density function, \$
+p\_\lambda(x) \$ must integrate to 1 over its domain, so an equation can
+be written: \[
+\int_{-\infty}^{\infty} p_\lambda(x) \, dx = 1.
+\] when \$ x \textless{} b \$, \$ p\_\lambda(x) = 0 \$, so we only need
+to calculate the integral from \(x = b\) to \(x = \infty\). To set up
+the integral, the equation can be written: \[
+\int_{b}^{\infty} ae^{-\lambda(x - b)} \, dx = 1.
+\] \(a\) is a constant number, so it can be factored out and just
+calculate the remaining part: \[
+a\int_{b}^{\infty} e^{-\lambda(x - b)} \, dx = 1.
+\] Let \(\mu = x-b\), so domain changes to \(\{0,\infty\}\) and the
+euqation should be transformed: \[
+a\int_{0}^{\infty} e^{-\lambda\mu} \, d\mu = 1.
+\] Solve the integral: \[
+\begin{align*}
+a\int_{0}^{\infty} e^{-\lambda\mu} d\mu 
+&= -\frac{1}{\lambda} \cdot e^{-\lambda\mu}|_{0}^{\infty} \\
+&= a \cdot [-\frac{1}{\infty} \cdot e^{-\infty \mu} -(-\frac{1}{0} \cdot e^{-0 \mu} )]\\
+&= a \cdot [0-(-\frac{1}{\lambda})]\\
+&= a \cdot \frac{1}{\lambda} = 1.
+\end{align*}
+\] so it is obvious that \[a = \lambda\] The answer of question(1) is
+\(a = \lambda\)
+
+\subsubsection{(2)}\label{section-1}
+
+\end{document}
