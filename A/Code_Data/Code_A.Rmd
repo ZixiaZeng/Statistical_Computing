@@ -128,11 +128,12 @@ Format of "Year" data is like "year_1996", it is not number, so "Year" has to be
 ```{r filter data}
 #Format of "Year" data is like "year_1996", it is not number.
 debt_df3_filtered = debt_df3 %>%
-  # To select data from 1960 to 2023, "Year" needs to delete the prefix and leave the number
+# To select data from 1960 to 2023, "Year" needs to delete the prefix and leave the number
   separate(Year, into = c("prefix", "Year"), sep = "_") %>%
   mutate(Year = as.numeric(Year)) %>%
-  # Use filter function to select the data
-  filter(`Country.Name` %in% c("Italy", "France", "United Kingdom", "Sudan", "Afghanistan", "Brazil") & 
+# Use filter function to select the data
+  filter(`Country.Name` %in% 
+           c("Italy", "France", "United Kingdom", "Sudan", "Afghanistan", "Brazil") & 
            Year >= 1960 & Year <= 2023 &
            # remove all the NA value in Total_reserves
            !is.na(Total_reserves))
@@ -153,8 +154,3 @@ ggplot(debt_df3_filtered, aes(x = Year, y = Total_reserves, color = Country.Name
        y = "Total Reserves",
        color = "Country")
 ```
-
-
-
-
-

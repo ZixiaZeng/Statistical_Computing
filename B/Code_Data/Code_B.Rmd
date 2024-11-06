@@ -11,44 +11,59 @@ output:
 ## B.1
 
 ### (1)
-
-According to the background of B.1, the probability density function $p_{\lambda}(x)$ of a random variable $X$ is: $$
+According to the background of B.1, the probability density function $p_{\lambda}(x)$ of a random variable $X$ is: 
+$$
 p_{\lambda}(x) = \begin{cases} 
 ae^{-\lambda(x - b)} & \text{if } x \geq b, \\
 0 & \text{if } x < b,
 \end{cases}
-$$ where: \$ b \> 0 \$ is a known constant, ${\lambda} > 0$ is a parameter of the distribution, \$ a \$ is a constant to be determined in terms of $\lambda$ and $b$.
+$$
+where: $b > 0$ is a known constant, ${\lambda} > 0$ is a parameter of the distribution, \$ a \$ is a constant to be determined in terms of $\lambda$ and $b$.
 
-According to the definition of probability density function, $p_{\lambda}(x)$ must integrate to 1 over its domain, so an equation can be written: $$
-\int_{-\infty}^{\infty} p_{\lambda}(x) \, dx = 1.
-$$ when $x < b$, $p_{\lambda}(x) = 0$, so we only need to calculate the integral from $x = b$ to $x = \infty$. To set up the integral, the equation can be written: $$
-\int_{b}^{\infty} ae^{-{\lambda}(x - b)} \, dx = 1.
-$$ $a$ is a constant number, so it can be factored out and just calculate the remaining part: $$
-a\int_{b}^{\infty} e^{-{\lambda}(x - b)} \, dx = 1.
-$$ Let $\mu = x-b$, so domain changes to $\{0,\infty\}$ and the euqation should be transformed: $$
-a\int_{0}^{\infty} e^{-{\lambda}\mu} \, d\mu = 1.
-$$ Solve the integral: $$
+According to the definition of probability density function, $p_{\lambda}(x)$ must integrate to 1 over its domain, so an equation can be written: 
+$$
+\int_{-\infty}^{\infty} p_{\lambda}(x) \, dx = 1
+$$ 
+When $x < b$, $p_{\lambda}(x) = 0$, so we only need to calculate the integral from $x = b$ to $x = \infty$. To set up the integral, the equation can be written: 
+$$
+\int_{b}^{\infty} ae^{-{\lambda}(x - b)} \, dx = 1
+$$ 
+$a$ is a constant number, so it can be factored out and just calculate the remaining part: 
+$$
+a\int_{b}^{\infty} e^{-{\lambda}(x - b)} \, dx = 1
+$$ 
+Let $\mu = x-b$, so domain changes to $\{0,\infty\}$ and the euqation should be transformed: 
+$$
+a\int_{0}^{\infty} e^{-{\lambda}\mu} \, d\mu = 1
+$$ 
+Solve the integral: 
+$$
 \begin{aligned}
 a\int_{0}^{\infty} e^{-\lambda\mu} d\mu 
 &= -\frac{1}{\lambda} \cdot e^{-\lambda\mu}|_{0}^{\infty} \\
 &= a \cdot [\lim_{u \to \infty}(-\frac{1}{\lambda} \cdot e^{-\lambda \mu}) 
   -\lim_{u \to 0}(-\frac{1}{\lambda} \cdot e^{-\lambda \mu} )]\\
 &= a \cdot [0-(-\frac{1}{\lambda})]\\
-&= a \cdot \frac{1}{\lambda} = 1.
+&= a \cdot \frac{1}{\lambda} = 1
 \end{aligned}
-$$ so it is obvious that $$a = \lambda$$ The answer of question(1) is $a = \lambda$
+$$ 
+Therefore, it is obvious that $a = \lambda$
+
+The answer of question(1) is $a = \lambda$
 
 ### (2)
+**Mean**: 
 
-**Mean**: The equation of mean of $X$ is: 
+The equation of mean of $X$ is: 
 $$
 \mathbb{E}[X]=\int_{-\infty}^{\infty}x \cdot p_{\lambda}(x)dx
 $$
-because $p_{\lambda}(x) = 0$, when $b<0$, so the integral can be simplified to: 
+Since $p_{\lambda}(x) = 0$, when $b<0$, so the integral can be simplified to: 
 $$
 \mathbb{E}[X]=\int_{b}^{\infty}x \cdot p_{\lambda}(x)dx
 $$ 
 Then transform $x$ to make the integral easier to solve. Let: $\mu = x-b \Rightarrow x = u + b$, then: $dx = d\mu$ and when $x=b,\mu=0$, when $x \rightarrow \infty,\mu \rightarrow \infty$. 
+
 Substituting, and can get: 
 $$
 \mathbb{E}[X]=\int_{0}^{\infty}(\mu + b) \cdot \lambda e^{-\lambda u}d\mu
@@ -84,11 +99,13 @@ $$
 $$ 
 
 **Standard Deviation**: 
+
 To calculate the standard deviation, calculate the variance first. The variance of $X$ is: 
 $$
 Var(X)=\mathbb{E}(X^2)-(\mathbb{E}(X))^2
 $$ 
-and $\mathbb{E}(X)=\frac{1}{\lambda}+b$ is already known, so this time just calculate $\mathbb{E}(X^2)$. 
+$\mathbb{E}(X)=\frac{1}{\lambda}+b$ is already known, so this time just calculate $\mathbb{E}(X^2)$. 
+
 First, write the equation(already know that when $x < b$, $p_{\lambda}(x) = 0$): 
 $$
 \mathbb{E}(X^2)=\int_{-\infty}^{\infty}x^2 p_{\lambda}(x)dx=\int_b^{\infty} \lambda x^2 e^{-\lambda (x-b)}dx
@@ -101,44 +118,255 @@ By expanding the $(\mu+b)^2$, the equation can be separated into three integrals
 $$
 \mathbb{E}(X^2)= {\lambda}\int_0^{\infty}u^2e^{-{\lambda} u}du + 2b{\lambda}\int_0^{\infty}ue^{-{\lambda} u}du + b^2{\lambda} \int_0^{\infty}e^{-{\lambda} u}du.
 $$ 
-The second integral: ${\lambda}\int_0^{\infty}ue^{-{\lambda} u}du = \frac{1}{\lambda}$ and the third integral:${\lambda}\int_0^{\infty}e^{-{\lambda} u}du=1$ are solved in previous proof, so we can substitute these conclusions later. Now we can only focus on the first integral: ${\lambda}\int_0^{\infty}u^2e^{-{\lambda} u}du$. To solve: 
+The second integral: ${\lambda}\int_0^{\infty}ue^{-{\lambda} u}du = \frac{1}{\lambda}$ and the third integral:${\lambda}\int_0^{\infty}e^{-{\lambda} u}du=1$ are solved in previous proof, so we can substitute these conclusions later. 
+
+Now we can only focus on the first integral: ${\lambda}\int_0^{\infty}u^2e^{-{\lambda} u}du$. 
+
+To solve: 
 $$
 {\lambda}\int_0^{\infty}u^2e^{{-\lambda} u}du
 $$ 
 we can apply integration by parts twice, which is similar to $\lambda \int_0^{\infty}ue^{-\lambda u}du$, so the result is:
-
 $$ 
 {\lambda} \int_0^{\infty} u^2 e^{-{\lambda} u}du = \frac{2}{{\lambda^2}}. 
 $$
+
 Substitute these results back, we can get:
 $$
 \mathbb{E}(X^2)= \frac{2}{\lambda^2} + 2b \cdot \frac{1}{\lambda} + b^2
 $$
-Now we can calculate the variance. Substitute the results:
+Now we can calculate the variance. Substituting the results:
 $$
 \begin{aligned}
 Var(X) &= \mathbb{E}(X^2)-(\mathbb{E}(X))^2 \\
-&= \frac{2}{\lambda^2} + 2b \cdot \frac{1}{\lambda} + b^2  - (\frac{1}{\lambda}+b)^2 \\
-&= \frac{2}{\lambda^2} + 2b \cdot \frac{1}{\lambda} + b^2  - (\frac{1}{\lambda^2}+\frac{2b}{\lambda}+b^2) \\
+&= \frac{2}{\lambda^2} + 2b \cdot \frac{1}{\lambda} + b^2-\left(\frac{1}{\lambda}+b\right)^2 \\
+&= \frac{2}{\lambda^2} + 2b \cdot \frac{1}{\lambda} + b^2-\left(\frac{1}{\lambda^2}+\frac{2b}{\lambda}+b^2\right) \\
 &= \frac{1}{\lambda^2}
 \end{aligned}
 $$
 The standard deviation is: $\sigma_X = \sqrt{\text{Var}(X)} = \frac{1}{\lambda}$
 
 In conclusion, the results are: 
-**Mean**: $\mathbb{E}[X] = \frac{1}{\lambda} + b$. 
-**Standard Deviation**: $\sigma\_X = \sqrt{\text{Var}(X)} = \frac{1}{\lambda}$.
+**Mean**: $\mathbb{E}[X] = \frac{1}{\lambda} + b$.
+
+**Standard Deviation**: $\sigma_X = \sqrt{\text{Var}(X)} = \frac{1}{\lambda}$.
 
 ### (3)
 **cumulative distribution function(CDF)**:
+
 Assume CDF of X is: 
 $$
 F_{\lambda}(x) = \mathbb{P}(X \leq x) = \int_{-\infty}^{x}p_{\lambda}(t)dt
 $$
-Case $x<b$: $P(X \leq x)=0$ because the probability density function $p_{\lambda}(x) = 0$. So we can get:
+Case $x<b$: $P(X \leq x)=0$ because the probability density function $p_{\lambda}(x) = 0$. 
+
+Therefore, we can get:
 $$
 F_{\lambda}(x) = 0, \ \ when \ x < b.
 $$
+Case $x \geq b$: we need to integrate $p_{\lambda}(t)$ from $t = b$ to $t = x$:
+$$
+F_\lambda(x) = \int_b^x \lambda e^{-\lambda(t - b)}dt.
+$$
+Let $u = t - b$, so $t = u + b$ and $dt = du$ so, When $t = b$, $u = 0$, When $t = x$, $u = x - b$.
+
+Substituting into the integral, we get:
+$$
+F_\lambda(x) = {\lambda} \int_0^{x - b} e^{-{\lambda} u} \, du.
+$$
+Now the integral can be solved:
+$$
+\begin{aligned}
+F_{\lambda}(x)&={\lambda} \cdot \left( -\frac{1}{\lambda}e^{-\lambda\mu} \right)|_{0}^{x-b} \\
+&={\lambda}\cdot \left( -\frac{1}{\lambda} e^{-\lambda (x - b)} + \frac{1}{\lambda} e^{0} \right) \\
+&=1-e^{-\lambda(x-b)}
+\end{aligned}
+$$
+Combining the two cases, the cumulative distribution function is:
+$$
+F_\lambda(x) = \begin{cases} 
+0 & \text{if } x < b, \\
+1 - e^{-\lambda (x - b)} & \text{if } x \geq b.
+\end{cases}
+$$
+**Quantile Function**:
+
+Quantile function is the inverse of cumulative distribution function(CDF), so for $x \geq b$, the CDF is:
+$$
+F_\lambda(x) = 1 - e^{-\lambda (x - b)}
+$$
+Set $F_{\lambda(x)} = p$ and find the relationship for $x$ to $p$:
+$$
+\begin{aligned}
+e^{-\lambda (x - b)} 
+&= 1 - p \\
+-{\lambda}(x-b)&=\ln(1-p) \\
+x&=b-\frac{1}{\lambda}\cdot\ln(1-p)
+\end{aligned}
+$$
+Therefore, the quantile function of X is:
+$$
+x=b-\frac{1}{\lambda}\cdot\ln(1-p),\,{for} \,\, p \in [0, 1)
+$$
+In conlusion: 
+
+**Cumulative distribution function**: $F_\lambda(x) = \begin{cases} 0 & \text{if } x < b, \\1 - e^{-\lambda (x - b)} & \text{if } x \geq b.\end{cases}$
+
+**Quantile function**:$x=b-\frac{1}{\lambda}\cdot\ln(1-p),\,{for} \,\, p \in [0, 1)$
+
+### (4)
+The likelihood function is defined as:
+$$
+L(\lambda) = \prod_{i=1}^n p_\lambda(X_i)
+$$
+Since $\because p_\lambda(X_i) = 0$, when$X_i < b$, so for all $x < b$ the likelihood is zero.
+Thus, for $X \geq b$:
+$$
+L(\lambda) = \prod_{i=1}^n \lambda e^{-\lambda(X_i - b)}
+$$
+Expanding the product, we can get:
+$$
+L(\lambda) = \lambda^n e^{-\lambda \sum_{i=1}^n (X_i - b)}
+$$
+Then transfer it to log-likelihood function:
+$$
+\ell(\lambda) = \ln L(\lambda) = n\ln(\lambda)-{\lambda}\sum_{i=1}^n(X_i-b)
+$$
+To find the maximum likelihood estimator for $\lambda$, we need to differentiate the log-likelihood function and set it equals to zero.
+$$
+\frac{d\ell(\lambda)}{d\lambda} = 0
+$$
+Substituting the equation:
+$$
+\frac{d(n\ln(\lambda)-{\lambda}\sum_{i=1}^n(X_i-b))}{d\lambda} = 0 \\
+n\cdot\frac{1}{\lambda}- \sum_{i=1}^n(X_i-b) = 0 \\
+\lambda=\frac{n}{\sum_{i=1}^n(X_i-b)}
+$$
+The maximum likelihood estimate (MLE) for $\lambda$ is:
+$$
+\hat{\lambda}_{\text{MLE}} = \frac{n}{\sum_{i=1}^n (X_i - b)}.
+$$
+### (5)
+Firstly, load the packages for data wrangling and visualization and the data set.
+```{r Load packages and csv file}
+# Load packages
+library(tidyverse)
+library(ggplot2)
+
+# Load data set
+market_df = read.csv("supermarket_data_2024(1).csv")
+```
+
+Then calculate maximum likelihood estimator. According to (4), the equation of MLE of $\lambda$ is $\hat{\lambda}_{\text{MLE}} = \frac{n}{\sum_{i=1}^n (X_i - b)}$
+```{r Calculate maximum likelihood estimator(MLE)}
+# Instant b is given
+b = 300 
+
+# Number of observations
+time_lengths = market_df$TimeLength
+n = length(time_lengths)
+
+# Calculate the MLE
+lambda_mle = n / sum(time_lengths - b)
+
+# Print the MLE for lambda
+cat("The MLE for lambda is:", lambda_mle, "\n")
+```
+### (6)
+```{r Bootstrap}
+# Bootstrap Confidence Interval for lambda
+# Set random seed
+set.seed(123)  
+# Number of bootstrap samples is given
+resamples_size = 10000  
+# Initialize a variable to store results of each estimation
+bootstrap_estimates = numeric(resamples_size)
+
+# Start the estimation
+for(i in 1:resamples_size){
+  # Resample with replacement from market_df
+  resample = sample(time_lengths,n,replace = TRUE)
+  # Store each MLE in bootstrap_estimates
+  bootstrap_estimates[i] = n / sum(resample - b)
+}
+
+# Calculate the 95% bootstrap confidence interval (2.5% to 97.5%)
+lower_bound = quantile(bootstrap_estimates, 0.025)
+upper_bound = quantile(bootstrap_estimates, 0.975)
+
+cat("The 95% bootstrap confidence interval for lambda is:",
+    lower_bound, "to", upper_bound, "\n")
+```
+### (7)
+```{r Simulation study}
+# Set given true parameters
+true_lambda = 2
+b = 0.01
+
+# Define the range of sample sizes (from 100 to 5000 in increments of 10)
+sample_sizes = seq(100, 5000, by = 10)
+num_trials = 100
+
+# Initialize a variable to store the mean squared errors for each sample
+mse_values = numeric(length(sample_sizes))
+
+# Function to calculate the MLE of lambda
+calculate_lambda_mle <- function(sample, b) {
+  n <- length(sample)
+  n / sum(sample - b)
+}
+
+# Start the simulation study
+# Set random seed
+set.seed(321)  
+for (j in seq_along(sample_sizes)) {
+  # Set sample size for this trail
+  n <- sample_sizes[j]
+  
+  # Store the MLEs for the current sample size across trials
+  mle_estimates <- numeric(num_trials)
+  
+  for (i in 1:num_trials) {
+    # Generate a sample from exponential distribution with rate = true_lambda
+    sample <- b + rexp(n, rate = true_lambda)
+    
+    # Compute the MLE for the current sample
+    mle_estimates[i] <- calculate_lambda_mle(sample, b)
+  }
+  
+  # Calculate the mean squared error for current sample size
+  mse_values[j] <- mean((mle_estimates - true_lambda)^2)
+}
+
+# Create a data frame and ready for plot
+mse_data <- data.frame(
+  SampleSize = sample_sizes,
+  MSE = mse_values
+)
+
+# Plot the Mean Squared Error as a function of sample size using ggplot2
+ggplot(mse_data, aes(x = SampleSize, y = MSE,color = "Mean Squared Error" )) +
+  geom_line() +
+  labs(
+    title = "Plot of Mean Squared Error of λ_MLE as a Function of Sample Size",
+    x = "Sample Size (n)",
+    y = "Mean Squared Error (MSE)",
+    color = "colour"
+  ) +
+  scale_color_manual(values = c("Mean Squared Error" = "red")) +
+  theme_minimal()
+```
+## B.2
+### (1)
+
+
+
+
+
+
+
+
+
 
 
 
