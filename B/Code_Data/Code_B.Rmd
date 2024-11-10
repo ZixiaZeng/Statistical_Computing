@@ -126,10 +126,42 @@ To solve:
 $$
 {\lambda}\int_0^{\infty}u^2e^{{-\lambda} u}du
 $$ 
-we can apply integration by parts twice, which is similar to $\lambda \int_0^{\infty}ue^{-\lambda u}du$, so the result is:
-$$ 
-{\lambda} \int_0^{\infty} u^2 e^{-{\lambda} u}du = \frac{2}{{\lambda^2}}. 
+we can solve this integral by parts:
 $$
+\begin{aligned}
+{\lambda} \int_0^{\infty} u^2 e^{-{\lambda} u}du &= -\int_0^{\infty}u^2de^{-{\lambda} u}\\
+&=-(u^2e^{-{\lambda} u}|_0^{\infty}-\int_0^{\infty}e^{-{\lambda} u}du^2) \\
+&=-(\lim_{u \to \infty} u^2 e^{-\lambda u} - \lim_{u \to 0} u^2 e^{-\lambda u} -2\int_0^{\infty}ue^{-{\lambda} u}du)\\
+\end{aligned}
+$$
+Since we have calculated $\mathbb{E}(x)$ before, so $\int_0^{\infty}ue^{-{\lambda} u}du)=\frac{1}{\lambda^2}$.
+
+Substituting:
+$$
+\begin{aligned}
+{\lambda} \int_0^{\infty} u^2 e^{-{\lambda} u}du &= -(\lim_{u \to \infty} u^2 e^{-\lambda u} - \lim_{u \to 0} u^2 e^{-\lambda u} -2\int_0^{\infty}ue^{-{\lambda} u}du)\\
+&= -(0-0-2\cdot\frac{1}{\lambda^2} )\\
+&= \frac{2}{{\lambda^2}}
+\end{aligned}
+$$
+To evaluate this expression, let's break it down step by step. The expression given is:
+
+\[
+-\left(u^2 e^{-\lambda u} \Big|_0^{\infty}\right) - \int_0^{\infty} e^{-\lambda u} \, du^2
+\]
+
+Let's simplify each part.
+
+1. **Evaluating** \( u^2 e^{-\lambda u} \Big|_0^{\infty} \):
+
+   \[
+   \lim_{u \to \infty} u^2 e^{-\lambda u} - \lim_{u \to 0} u^2 e^{-\lambda u}
+   \]
+
+   As \( u \to \infty \), \( u^2 e^{-\lambda u} \to 0 \) (since \( e^{-\lambda u} \) decays to zero faster than \( u^2 \) grows). At \( u = 0 \), \( u^2 e^{-\lambda u} = 0 \).
+
+   So, \( u^2 e^{-\lambda u} \Big|_0^{\infty} = 0 - 0 = 0 \).
+
 
 Substitute these results back, we can get:
 $$
