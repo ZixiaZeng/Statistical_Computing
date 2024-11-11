@@ -278,6 +278,7 @@ The maximum likelihood estimate (MLE) for $\lambda$ is:
 $$
 \hat{\lambda}_{\text{MLE}} = \frac{n}{\sum_{i=1}^n (X_i - b)}.
 $$
+
 ### (5)
 Firstly, load the packages for data wrangling and visualization and the data set.
 ```{r Load packages and csv file}
@@ -304,31 +305,32 @@ lambda_mle = n / sum(time_lengths - b)
 # Print the MLE for lambda
 cat("The MLE for lambda is:", lambda_mle, "\n")
 ```
+
 ### (6)
 ```{r Bootstrap}
-# Bootstrap Confidence Interval for lambda
-# Set random seed
-set.seed(123)  
-# Number of bootstrap samples is given
-resamples_size = 10000  
-# Initialize a variable to store results of each estimation
-bootstrap_estimates = numeric(resamples_size)
+# Use boot package to compute the 95% level confidence interval
+# Load package
+library(boot)
 
-# Start the estimation
-for(i in 1:resamples_size){
-  # Resample with replacement from market_df
-  resample = sample(time_lengths,n,replace = TRUE)
-  # Store each MLE in bootstrap_estimates
-  bootstrap_estimates[i] = n / sum(resample - b)
+# Set random seed
+set.seed(1111)
+
+# Define a function which computes the lambda of a chosen column
+compute_lambda_MLE = function(df,indicies,col_name){
+  # Extract sub-sample
+  sub_sample = slice(df,indicies) %>%
+    pull(all_of(col_name)) 
+  # Return lambda_MLE
+  return(length(sub_sample)/sum(sub_sample-b))
 }
 
-# Calculate the 95% bootstrap confidence interval (2.5% to 97.5%)
-lower_bound = quantile(bootstrap_estimates, 0.025)
-upper_bound = quantile(bootstrap_estimates, 0.975)
+# Use boot function to generate the bootstrap statistics
+res = boot(data = market_df, statistic = compute_lambda_MLE, col_name = "TimeLength", R = 10000)
 
-cat("The 95% bootstrap confidence interval for lambda is:",
-    lower_bound, "to", upper_bound, "\n")
+# Compute the 95% level confidence interval for lambda
+boot.ci(boot.out = res, type = "basic", conf = 0.95)
 ```
+
 ### (7)
 ```{r Simulation study B.1(7)}
 # Set given true parameters
@@ -345,7 +347,7 @@ mse_values = numeric(length(sample_sizes))
 # Function to calculate the MLE of lambda
 calculate_lambda_mle = function(sample, b) {
   n = length(sample)
-  n / sum(sample - b)
+  return(n / sum(sample - b))
 }
 
 # Start the simulation study
@@ -385,9 +387,13 @@ ggplot(mse_data, aes(x = SampleSize, y = MSE,color = "Mean Squared Error" )) +
     y = "Mean Squared Error (MSE)",
     color = "colour"
   ) +
-  scale_color_manual(values = c("Mean Squared Error" = "red")) +
+  scale_color_manual(values = c("Mean Squared Error" = "green")) +
   theme_minimal()
 ```
+This plot shows that as the sample size $n$ increases, the Mean Square Error(MSE) of $\lambda$ decreases, approaching zero. For small sample sizes, the MSE is high, this shows that there is more error when there is little data. When the sample size grows more than 2000, the MSE decreases at a slower rate and stabilizes near zero. This behavior occurs due to MLE estimators are consistent, meaning they converge to the true parameter value as sample size grows, leading to a lower MSE. 
+
+Larger samples also reduce estimator variance, as more data helps capture the true parameter more accurately. This trend reflects the law of large numbers, with the estimator becoming increasingly precise and stable with more data.
+
 ## B.2
 ### (1)
 Since $X$ equals the number of red balls minus the number of blue balls, there are three possible outcomes:
@@ -618,6 +624,7 @@ sample_means = numeric(trials)
 
 # Generate sample_means
 for(i in 1:trials){
+  # Use the function sample_Xs in B.2(7) to make the sample
   x = sample_Xs(a,b,n)
   sample_means[i] = mean(x)
 }
