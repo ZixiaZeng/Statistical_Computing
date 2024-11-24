@@ -1,5 +1,5 @@
 ---
-title: "Task B"
+title: "Section B"
 author: "Zixia Zeng"
 date: "2024-11-05"
 output:
@@ -122,11 +122,7 @@ The second integral: ${\lambda}\int_0^{\infty}ue^{-{\lambda} u}du = \frac{1}{\la
 
 Now we can only focus on the first integral: ${\lambda}\int_0^{\infty}u^2e^{-{\lambda} u}du$. 
 
-To solve: 
-$$
-{\lambda}\int_0^{\infty}u^2e^{{-\lambda} u}du
-$$ 
-we can solve this integral by parts:
+To solve ${\lambda}\int_0^{\infty}u^2e^{{-\lambda} u}du$, we can solve this integral by parts:
 $$
 \begin{aligned}
 {\lambda} \int_0^{\infty} u^2 e^{-{\lambda} u}du &= -\int_0^{\infty}u^2de^{-{\lambda} u}\\
@@ -144,24 +140,6 @@ $$
 &= \frac{2}{{\lambda^2}}
 \end{aligned}
 $$
-To evaluate this expression, let's break it down step by step. The expression given is:
-
-\[
--\left(u^2 e^{-\lambda u} \Big|_0^{\infty}\right) - \int_0^{\infty} e^{-\lambda u} \, du^2
-\]
-
-Let's simplify each part.
-
-1. **Evaluating** \( u^2 e^{-\lambda u} \Big|_0^{\infty} \):
-
-   \[
-   \lim_{u \to \infty} u^2 e^{-\lambda u} - \lim_{u \to 0} u^2 e^{-\lambda u}
-   \]
-
-   As \( u \to \infty \), \( u^2 e^{-\lambda u} \to 0 \) (since \( e^{-\lambda u} \) decays to zero faster than \( u^2 \) grows). At \( u = 0 \), \( u^2 e^{-\lambda u} = 0 \).
-
-   So, \( u^2 e^{-\lambda u} \Big|_0^{\infty} = 0 - 0 = 0 \).
-
 
 Substitute these results back, we can get:
 $$
@@ -178,7 +156,8 @@ Var(X) &= \mathbb{E}(X^2)-(\mathbb{E}(X))^2 \\
 $$
 The standard deviation is: $\sigma_X = \sqrt{\text{Var}(X)} = \frac{1}{\lambda}$
 
-In conclusion, the results are: 
+In conclusion, the results are:
+
 **Mean**: $\mathbb{E}[X] = \frac{1}{\lambda} + b$.
 
 **Standard Deviation**: $\sigma_X = \sqrt{\text{Var}(X)} = \frac{1}{\lambda}$.
@@ -221,6 +200,7 @@ F_\lambda(x) = \begin{cases}
 1 - e^{-\lambda (x - b)} & \text{if } x \geq b.
 \end{cases}
 $$
+
 **Quantile Function**:
 
 Quantile function is the inverse of cumulative distribution function(CDF), so for $x \geq b$, the CDF is:
@@ -553,6 +533,7 @@ Var(\overline{X}) = \frac{1}{n}\left(\frac{4(a(a-1) + b(b-1))}{(a + b)(a + b - 1
 - \left( \frac{2(a(a-1) 
 - b(b-1))}{(a + b)(a + b - 1)} \right)^2 \right)
 $$
+
 ### (7)
 ```{r function to generate sample}
 # Function to generate a sample of X1, X2, ..., Xn of independent copies of X
@@ -567,7 +548,7 @@ sample_Xs = function(a, b, n) {
   p_2b = (b * (b - 1)) / ((a + b) * (a + b - 1))
   
   # Generate the sample of n independent copies of X
-  sample <- sample(c(2, 0, -2), size = n, replace = TRUE, prob = c(p_2r, p_1r1b, p_2b))
+  sample = sample(c(2, 0, -2), size = n, replace = TRUE, prob = c(p_2r, p_1r1b, p_2b))
   
   return(sample)
 }
@@ -581,17 +562,17 @@ b = 5
 n = 100000
 
 # Compute numerical value of E(X) and Var(X)
-E_X <- compute_expectation_X(a, b)
-Var_X <- compute_variance_X(a, b)
+E_X = compute_expectation_X(a, b)
+Var_X = compute_variance_X(a, b)
 
 # Generate a sample X1, X2, ..., Xn of X
 # Set random seed
 set.seed(228)
-sample_X <- sample_Xs(a, b, n)
+sample_X = sample_Xs(a, b, n)
 
 # Compute the sample mean and sample variance
-sample_mean <- mean(sample_X)
-sample_variance <- var(sample_X)
+sample_mean = mean(sample_X)
+sample_variance = var(sample_X)
 
 # Print the results
 cat("Population E(X):", E_X, "\n")
@@ -614,10 +595,10 @@ For sample variance and population variance, according to the Central Limit Theo
 ### (9)
 ```{r Simulation study B.2(9)}
 # Set default variables
-a <- 3
-b <- 5
-n <- 100
-trials <- 50000
+a = 3
+b = 5
+n = 100
+trials = 50000
 
 # Define a vector to store sample mean for each trial
 sample_means = numeric(trials)
@@ -646,7 +627,7 @@ x_seq = seq(mu - 3 * sigma,mu + 3 * sigma, by = 0.1 * sigma)
 f_g = dnorm(x_seq, mean = mu, sd = sigma)
 
 # Create a data frame for the plot
-f_g_data <- data.frame(x = x_seq, f_g = f_g)
+f_g_data = data.frame(x = x_seq, f_g = f_g)
 
 # Create the plot for the density plot and the scatter plot
 ggplot() +

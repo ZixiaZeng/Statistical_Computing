@@ -1,0 +1,156 @@
+---
+title: "Section A"
+author: "Zixia Zeng"
+date: "2024-11-04"
+output: pdf_document
+---
+
+```{r load packages}
+# data wrangling
+library(tidyverse)
+# data visualization
+library(ggplot2)
+```
+
+## (Q1)
+```{r Load csv files}
+# Load debt_data.csv
+debt_df = read.csv("debt_data.csv")
+
+# Load country_data.csv
+country_df = read.csv("country_data.csv")
+
+# Load indicator_data.csv
+indicator_df = read.csv("indicator_data.csv")
+
+# Use dim function to check the number of columns and rows of debt_df
+dim(debt_df)
+```
+By using the dim() function, the number of rows is 13824, and the number of columns is 63. This means the debt_df data frame contains 63 variables and 13824 observations.
+
+## (Q2)
+```{r Update debt_df}
+# Update debt_df by "DT.NFL.BLAT.CD" in descending order
+debt_df = arrange(debt_df,desc(DT.NFL.BLAT.CD))
+
+# Select the first 4 rows and specific columns
+subset_df = debt_df[1:4, c("Country.Code", "Year", "NY.GNP.MKTP.CD", "DT.NFL.BLAT.CD")]
+
+# Display the subset
+print(subset_df)
+```
+
+## (Q3)
+```{r Create debt_df2}
+# Select the first two variables of debt_df, (Country.Code and Year)
+debt_df_first2 = debt_df[, 1:2]
+# Select rest variables and prepare to replace them
+debt_df_rest = debt_df[,-c(1,2)]
+
+# Match the Indicator_code in Indicator_df and replace them by the indicator_name
+colnames(debt_df_rest) = indicator_df$INDICATOR_NAME[
+  match(colnames(debt_df_rest),indicator_df$INDICATOR_CODE)
+  ]
+
+# Combine the first two variables
+debt_df2 = cbind(debt_df_first2,debt_df_rest)
+
+debt_df2 %>% 
+  select(c("Country.Code","Year","Net financial flows, others (NFL, current US$)")) %>%
+  head(5)
+```
+
+## (Q4)
+```{r Create debt_df3}
+# Use left_join to merge data in country_df to debt_df2
+debt_df3 = left_join(debt_df2,country_df,by = "Country.Code")
+
+# Delete the "SpecialNotes"
+debt_df3 = select(debt_df3,-SpecialNotes)
+
+# Subset consisting of the first three rows and four columns
+debt_df3 %>% 
+  select(c(Country.Name,IncomeGroup,Year,`Total reserves in months of imports`)) %>%
+  head(5)
+```
+
+## (Q5)
+```{r Rename Columns}
+#rename the five columns
+debt_df3 = debt_df3 %>%
+  rename(Total_reserves = `Total reserves in months of imports`) %>%
+  rename(External_debt = `External debt stocks, total (DOD, current US$)`) %>%
+  rename(Financial_flow = `Net financial flows, bilateral (NFL, current US$)`) %>%
+  rename(Imports = `Imports of goods, services and primary income (BoP, current US$)`) %>%
+  rename(IFC = `IFC, private nonguaranteed (NFL, US$)`)
+# Display data frame after rename
+debt_df3 %>% 
+  select(c(Total_reserves,External_debt,Financial_flow,Imports,IFC)) %>%
+  head(5)
+```
+
+## (Q6)
+```{r Summarize debt_df3}
+# Summarize debt_df3 and create four new columns
+debt_summary = debt_df3 %>%
+  group_by(Region) %>%
+  summarise(    
+    TR_mn = mean(Total_reserves, na.rm = TRUE),
+    ED_md = median(External_debt, na.rm = TRUE),
+    FF_quantile = quantile(Financial_flow, 0.2, na.rm = TRUE),
+    IFC_sd = sd(IFC, na.rm = TRUE)
+    )
+# Display summary of debt_df3
+print(debt_summary)
+```
+
+## (Q7)
+```{r volin plot Financial Flow--Region}
+# Filter data to remove missing values and out-of-range values in "Financial_flow"
+debt_df3_filtered = debt_df3 %>%
+  filter(!is.na(Financial_flow) & Financial_flow >= -1e8 & Financial_flow <= 1e8)
+
+# Create the violin plot
+ggplot(debt_df3_filtered, aes(x = Financial_flow, y = Region , color = Region)) +
+  geom_violin(trim = TRUE) +
+  labs(title = "Violin Plot of Financial Flow by Region",
+       x = "Financial Flow",
+       y = "Region") +
+  theme_minimal()
+```
+
+## (Q8)
+```{r change "Year" data}
+# First check the data format of each variables
+head(debt_df3$Year)
+```
+Format of "Year" data is like "year_1996", it is not number, so "Year" has to be transformed to numeric data then it can be used to filter the data between 1960 to 2023
+```{r filter data}
+#Format of "Year" data is like "year_1996", it is not number.
+debt_df3_filtered = debt_df3 %>%
+# To select data from 1960 to 2023, "Year" needs to delete the prefix and leave the number
+  separate(Year, into = c("prefix", "Year"), sep = "_") %>%
+  mutate(Year = as.numeric(Year)) %>%
+# Use filter function to select the data
+  filter(`Country.Name` %in% 
+           c("Italy", "France", "United Kingdom", "Sudan", "Afghanistan", "Brazil") & 
+           Year >= 1960 & Year <= 2023 &
+           # remove all the NA value in Total_reserves
+           !is.na(Total_reserves))
+```
+Data in debt_df3 is already cleaned, then it can be used to create plot.
+```{r plot Total_reserves--Country}
+# create plot
+ggplot(debt_df3_filtered, aes(x = Year, y = Total_reserves, color = Country.Name)) +
+  # Remove the NA value
+  geom_line(na.rm = TRUE) +
+  # Draw points at each data pair, and ignore NA value
+  geom_point(na.rm = TRUE) +
+  # divide the plot into different Income groups
+  facet_wrap(~ IncomeGroup) +
+  # Create Labels for the plot
+  labs(title = "Total Reserves from 1960 to 2023",
+       x = "Year",
+       y = "Total Reserves",
+       color = "Country")
+```
